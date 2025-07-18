@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Smooth Red Pen",
+  "version": "1.0",
+  "description": "Draw smooth glowing red pen strokes on any website.",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Smooth Pen"
+  }
+}
