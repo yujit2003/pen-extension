@@ -56,10 +56,10 @@ if (!window.penInjected) {
   function drawLayeredStroke(path, opacity, color, width) {
     const [r, g, b] = color;
     const glowLayers = [
-      { width: width + 4, blur: 16 },
-      { width: width + 3, blur: 12 },
-      { width: width + 2, blur: 8 },
-      { width: width + 1, blur: 4 },
+      { width: width + 5, blur: 40 },
+      { width: width + 8, blur: 20 },
+      { width: width + 8, blur: 80 },
+      { width: width + 8, blur: 40 },
     ];
 
     for (const layer of glowLayers) {
@@ -91,26 +91,43 @@ if (!window.penInjected) {
 
     // White core
     ctx.save();
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
-    ctx.strokeStyle = `rgba(255,255,255,${opacity})`;
-    ctx.lineWidth = 0.7;
-    ctx.beginPath();
-    if (path.length < 3) {
-      ctx.moveTo(path[0].x, path[0].y);
-      ctx.lineTo(path[1]?.x || path[0].x + 0.1, path[1]?.y || path[0].y + 0.1);
-    } else {
-      ctx.moveTo(path[0].x, path[0].y);
-      for (let i = 1; i < path.length - 2; i++) {
-        const xc = (path[i].x + path[i + 1].x) / 2;
-        const yc = (path[i].y + path[i + 1].y) / 2;
-        ctx.quadraticCurveTo(path[i].x, path[i].y, xc, yc);
-      }
-      const n = path.length;
-      ctx.quadraticCurveTo(path[n - 2].x, path[n - 2].y, path[n - 1].x, path[n - 1].y);
-    }
-    ctx.stroke();
-    ctx.restore();
+ctx.lineJoin = "round";
+ctx.lineCap = "round";
+ctx.strokeStyle = `rgba(255,255,255,${opacity})`;
+ctx.lineWidth = width;
+ctx.globalAlpha = opacity; // subtle smoothing
+ctx.beginPath();
+
+if (path.length < 3) {
+  // fallback: draw minimal line if not enough points
+  ctx.moveTo(path[0].x, path[0].y);
+  ctx.lineTo(path[1]?.x || path[0].x + 0.1, path[1]?.y || path[0].y + 0.1);
+} else {
+  let prevMid = {
+    x: (path[0].x + path[1].x) / 2,
+    y: (path[0].y + path[1].y) / 2,
+  };
+
+  ctx.moveTo(prevMid.x, prevMid.y);
+
+  for (let i = 1; i < path.length - 1; i++) {
+    const mid = {
+      x: (path[i].x + path[i + 1].x) / 2,
+      y: (path[i].y + path[i + 1].y) / 2,
+    };
+
+    ctx.quadraticCurveTo(path[i].x, path[i].y, mid.x, mid.y);
+    prevMid = mid;
+  }
+
+  // ensure final segment is drawn
+  const last = path[path.length - 1];
+  ctx.lineTo(last.x, last.y);
+}
+
+ctx.stroke();
+ctx.restore();
+
   }
 
   let animationFrameId;
