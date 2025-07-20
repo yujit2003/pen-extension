@@ -134,7 +134,7 @@ ctx.restore();
   function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const now = Date.now();
-    const fadeDuration = 4000;
+    const fadeDuration = 500;
 
     for (const stroke of strokes) {
       const elapsed = now - stroke.timestamp;
