@@ -205,19 +205,35 @@ ctx.restore();
       }
     </style>
     <div id="penPanel">
-      <div>
-        <label>Width:</label>
-        <input type="range" id="widthSlider" min="1" max="20" value="${penWidth}">
-      </div>
-      <div style="margin-top:8px;">
-        <label>Color:</label>
-        <input type="color" id="colorPicker" value="#ff0000">
-      </div>
-      <div style="margin-top:8px;">
-        <button id="clearCanvas">Clear</button>
-        <button id="exitBtn">Exit</button>
-      </div>
-    </div>
+  <div>
+    <label>Width:</label>
+    <input type="range" id="widthSlider" min="1" max="20" value="${penWidth}">
+  </div>
+
+  <div style="margin-top:8px;">
+    <label>Color:</label>
+    <input type="color" id="colorPicker" value="#ff0000">
+  </div>
+
+  <div style="margin-top:8px;">
+    <button id="clearCanvas">Clear</button>
+    <button id="exitBtn">Exit</button>
+  </div>
+
+  <!-- Bottom Center Tag -->
+  <div
+    style="
+      margin-top:12px;
+      text-align:center;
+      font-size:12px;
+      color:#666;
+      font-weight:bold;
+      letter-spacing:2px;
+    "
+  >
+    © YUJIT
+  </div>
+</div>
   `;
   document.body.appendChild(panel);
 
